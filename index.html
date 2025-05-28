@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Υπηρεσίες Στοιχειοθεσίας</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            background: #2c3e50;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            color: #ecf0f1;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ecf0f1;
+        }
+        nav {
+            display: flex;
+        }
+        nav a {
+            color: #ecf0f1;
+            margin: 0 1.5rem;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #3498db;
+        }
+        .hero {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: #ecf0f1;
+            text-align: center;
+            padding: 6rem 3rem;
+            margin: 2rem;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .hero-image {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .hero-text {
+            max-width: 50%;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: normal;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            margin: 1.5rem 0;
+        }
+        .hero button {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+        .hero button:hover {
+            background: #2980b9;
+        }
+        .section {
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+        }
+        .about, .services, .examples {
+            background: #fff;
+            border-radius: 10px;
+            margin: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        .about-content, .services-content, .examples-content {
+            display: flex;
+            flex-direction: row;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .about-image {
+            width: 40%;
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 350px;
+            margin-right: 3rem;
+        }
+        .about-text, .services-text, .examples-text {
+            max-width: 50%;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .contact {
+            background: #ecf0f1;
+            padding: 3rem;
+            border-radius: 10px;
+            margin: 2rem;
+        }
+        .contact a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .examples-content .example {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 5px solid #e74c3c;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        .examples-content .improved {
+            border-left: 5px solid #27ae60;
+        }
+        #accessibility-widget-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #34495e;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10000;
+            border: 2px solid #ecf0f1;
+        }
+        #accessibility-widget-toggle:hover {
+            background-color: #2c3e50;
+        }
+        #accessibility-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            width: 280px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            padding: 20px;
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid #ccc;
+        }
+        #accessibility-panel.active {
+            display: flex;
+        }
+        #accessibility-panel h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .accessibility-button {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            font-size: 0.95rem;
+            transition: background-color 0.2s;
+        }
+        .accessibility-button:hover, .accessibility-button:focus {
+            background-color: #e0e0e0;
+            outline: 2px solid #3498db;
+        }
+        .accessibility-button i {
+            margin-right: 8px;
+            width: 20px;
+        }
+        body.high-contrast-mode {
+            background-color: #000000 !important;
+            color: #FFFF00 !important;
+        }
+        body.high-contrast-mode header,
+        body.high-contrast-mode .hero,
+        body.high-contrast-mode .about,
+        body.high-contrast-mode .services,
+        body.high-contrast-mode .examples,
+        body.high-contrast-mode .contact,
+        body.high-contrast-mode #accessibility-panel {
+            background-color: #1a1a1a !important;
+            color: #FFFF00 !important;
+        }
+        body.high-contrast-mode a,
+        body.high-contrast-mode .hero button {
+            color: #00FFFF !important;
+        }
+        body.high-contrast-mode .hero button {
+            background-color: #FFFF00 !important;
+            color: #000000 !important;
+        }
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background: #2c3e50;
+                width: 100%;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }
+            nav.active {
+                display: flex;
+            }
+            nav a {
+                padding: 1rem;
+                border-bottom: 1px solid #34495e;
+            }
+            .hero {
+                flex-direction: column;
+                padding: 3rem 1rem;
+            }
+            .hero-image {
+                max-width: 100%;
+            }
+            .hero-text {
+                max-width: 100%;
+                text-align: center;
+            }
+            .about-content, .services-content, .examples-content {
+                flex-direction: column;
+            }
+            .about-image, .about-text, .services-text, .examples-text {
+                max-width: 100%;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Accessibility Widget Toggle -->
+    <button id="accessibility-widget-toggle" aria-label="Άνοιγμα Πίνακα Προσβασιμότητας" aria-expanded="false" aria-controls="accessibility-panel">♿</button>
+    <div id="accessibility-panel" role="dialog" aria-modal="true" aria-labelledby="accessibility-panel-title">
+        <h4 id="accessibility-panel-title">Επιλογές Προσβασιμότητας</h4>
+        <button id="increase-text" class="accessibility-button"><span aria-hidden="true">🔍</span> Αύξηση Μέγεθος Κειμένου</button>
+        <button id="decrease-text" class="accessibility-button"><span aria-hidden="true">🔍</span> Μείωση Μέγεθος Κειμένου</button>
+        <button id="reset-text" class="accessibility-button"><span aria-hidden="true">🔄</span> Επαναφορά Μέγεθος Κειμένου</button>
+        <button id="toggle-contrast" class="accessibility-button"><span aria-hidden="true">🌗</span> Εναλλαγή Υψηλής Αντίθεσης</button>
+        <button id="close-accessibility-panel" class="accessibility-button" style="margin-top: 10px; background-color: #e74c3c; color:white;"><span aria-hidden="true">✖</span> Κλείσιμο Πίνακα</button>
+    </div>
+
+    <header>
+        <div class="logo">Υπηρεσίες Στοιχειοθεσίας</div>
+        <div class="menu-toggle" role="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">☰</div>
+        <nav id="nav-menu">
+            <a href="#home">Αρχική</a>
+            <a href="#about">Σχετικά με Εμάς</a>
+            <a href="#services">Υπηρεσίες</a>
+            <a href="#examples">Παραδείγματα</a>
+            <a href="#contact">Επικοινωνία</a>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <img src="logoImage.jpg" alt="Social Media Connectivity" class="hero-image">
+        <div class="hero-text">
+            <h1>Υπηρεσίες Στοιχειοθεσίας</h1>
+            <p>Στον σημερινό κόσμο, όπου ο ανταγωνισμός για την προσοχή του κοινού είναι έντονος, κάθε λεπτομέρεια μετράει. Μεταμορφώνουμε τα κείμενά σας με επαγγελματική στοιχειοθεσία, εξασφαλίζοντας ότι είναι σαφή, ελκυστικά και εύκολα στην ανάγνωση.</p>
+            <button onclick="location.href='#services'">Μάθετε Περισσότερα</button>
+        </div>
+    </section>
+
+    <section id="about" class="section about">
+        <h2>Σχετικά με Εμάς</h2>
+        <div class="about-content">
+            <div class="about-image"></div>
+            <div class="about-text">
+                <p>Στον σημερινό κόσμο, όπου ο ανταγωνισμός για την προσοχή του κοινού είναι μεγάλος, κάθε λεπτομέρεια μετράει. Ένα κείμενο που διαβάζεται δύσκολα γίνεται γρήγορα βαρετό για τον αναγνώστη. Καθώς υπάρχει μεγάλη ευκολία στο να επιλέξει να δει κάτι άλλο ή να αναζητήσει αλλού πληροφορίες και ψυχαγωγία, είναι σημαντικό να μην παρουσιάζονται εμπόδια στην επαφή του με το κείμενο.</p>
+                <p>Η επιχείρησή μας εξειδικεύεται στη διαμόρφωση κειμένων με τρόπο που η ανάγνωσή τους γίνεται αβίαστη, επιτρέποντας στον αναγνώστη να εστιάσει στο περιεχόμενο. Η σωστή στοιχειοθεσία προσδίδει την επαγγελματική σφραγίδα σε κάθε κείμενο, και όσοι στοχεύουν στο μέγιστο αποτέλεσμα φροντίζουν για την επιμέλειά της.</p>
+                <p>Χρησιμοποιώντας την πολυετή εμπειρία μας στο χώρο του βιβλίου, της φιλολογίας και των online μαθημάτων, προσαρμόζουμε τα κείμενά σας στις ιδιαιτερότητες όλων των μέσων, όπως εκτυπωμένα βιβλία, eBooks, σελίδες στο Facebook, διαφημιστικό υλικό, κείμενα ιστοσελίδων και άρθρα σε online ή εκτυπωμένα περιοδικά και εφημερίδες.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section services">
+        <h2>Υπηρεσίες</h2>
+        <div class="services-content">
+            <div class="services-text">
+                <p><strong>Οι Υπηρεσίες μας:</strong> Αξιοποιώντας την πολυετή εμπειρία μας, προσφέρουμε ολοκληρωμένες υπηρεσίες στοιχειοθεσίας για να βελτιώσουμε την παρουσίαση των κειμένων σας:</p>
+                <ul>
+                    <li><strong>Διαμόρφωση για Εκτυπωμένα Βιβλία:</strong> Επαγγελματική μορφοποίηση για μέγιστη αναγνωσιμότητα.</li>
+                    <li><strong>Προσαρμογή για eBooks:</strong> Βελτιστοποιημένα κείμενα για ψηφιακές εκδόσεις.</li>
+                    <li><strong>Βελτιστοποίηση για Social Media:</strong> Κείμενα προσαρμοσμένα για πλατφόρμες όπως Instagram, Facebook και Twitter.</li>
+                    <li><strong>Διαφημιστικό Υλικό:</strong> Ελκυστικά κείμενα για προωθητικές καμπάνιες.</li>
+                    <li><strong>Κείμενα Ιστοσελίδων:</strong> Σαφή και επαγγελματικά κείμενα για online παρουσία.</li>
+                    <li><strong>Άρθρα για Περιοδικά και Εφημερίδες:</strong> Μορφοποίηση για έντυπα και online μέσα.</li>
+                </ul>
+                <p>Η σωστή στοιχειοθεσία εξασφαλίζει ότι το κοινό σας εστιάζει στο περιεχόμενο, χωρίς να αποσπάται από κακή μορφοποίηση.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="examples" class="section examples">
+        <h2>Παραδείγματα</h2>
+        <div class="examples-content">
+            <div class="example">
+                <h3>Πριν: Κακογραμμένο Κείμενο</h3>
+                <p>Οι συμβάσεις είναι πολύ σημαντικές στο δίκαιο επειδή είναι συμφωνίες μεταξύ ανθρώπων ή εταιρειών που λένε τι πρέπει να κάνουν και τι παίρνουν σε αντάλλαγμα, αλλά μερικές φορές οι άνθρωποι δεν τις καταλαβαίνουν επειδή είναι γραμμένες με περίπλοκο τρόπο με πολλούς νομικούς όρους που είναι δύσκολο να καταλάβεις, και αυτό μπορεί να οδηγήσει σε προβλήματα όταν η μία πλευρά νομίζει ότι παίρνει κάτι αλλά η άλλη πλευρά νομίζει διαφορετικά, οπότε είναι σημαντικό να βεβαιωθείς ότι οι συμβάσεις είναι ξεκάθαρες και όλοι καταλαβαίνουν τι σημαίνουν, αλλά συχνά οι δικηγόροι τις γράφουν με τρόπο που μόνο άλλοι δικηγόροι μπορούν να καταλάβουν, κάτι που δεν βοηθάει τους κανονικούς ανθρώπους που απλώς θέλουν να ξέρουν σε τι συμφωνούν.</p>
+            </div>
+            <div class="example improved">
+                <h3>Μετά: Διορθωμένο Κείμενο</h3>
+                <p>Οι συμβάσεις αποτελούν τον πυρήνα των νομικών συμφωνιών, καθώς καθορίζουν με σαφήνεια τα δικαιώματα και τις υποχρεώσεις των εμπλεκομένων, είτε πρόκειται για ιδιώτες είτε για επιχειρήσεις. Ωστόσο, η αξία τους εξαρτάται από το πόσο κατανοητές είναι. Όταν περιέχουν δυσνόητη νομική ορολογία ή περίπλοκες διατυπώσεις, συχνά προκαλούν σύγχυση, με αποτέλεσμα διαφωνίες μεταξύ των μερών. Γι’ αυτό, μια καλογραμμένη σύμβαση πρέπει να είναι απλή και ξεκάθαρη, ώστε όλοι να αντιλαμβάνονται πλήρως τι συμφωνούν. Οι δικηγόροι οφείλουν να τις συντάσσουν με τρόπο που να εξυπηρετεί όχι μόνο τη νομική ακρίβεια, αλλά και την κατανόηση από το ευρύ κοινό.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <h2>Επικοινωνία</h2>
+        <p>Επικοινωνήστε μαζί μας για να ανακαλύψετε πώς μπορούμε να βελτιώσουμε τα κείμενά σας!</p>
+        <p>Email: <a href="mailto:chrysikos_den@hotmail.com">chrysikos_den@hotmail.com</a></p>
+        <p>Τηλέφωνο: <a href="tel:+30231550731">231 550 731</a></p>
+        <p>Διεύθυνση: Φρίξου 5, Θεσσαλονίκη 546 27</p>
+        <p>Ακολουθήστε μας: 
+            <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a> | 
+            <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a> | 
+            <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+        </p>
+    </section>
+
+    <script>
+        const accessibilityToggle = document.getElementById('accessibility-widget-toggle');
+        const accessibilityPanel = document.getElementById('accessibility-panel');
+        const closePanelButton = document.getElementById('close-accessibility-panel');
+        let initialFontSize = window.getComputedStyle(document.body).fontSize;
+        let currentMultiplier = 1;
+
+        function openAccessibilityPanel() {
+            accessibilityPanel.classList.add('active');
+            accessibilityToggle.setAttribute('aria-expanded', 'true');
+            document.getElementById('increase-text').focus();
+        }
+
+        function closeAccessibilityPanel() {
+            accessibilityPanel.classList.remove('active');
+            accessibilityToggle.setAttribute('aria-expanded', 'false');
+            accessibilityToggle.focus();
+        }
+
+        accessibilityToggle.addEventListener('click', () => {
+            if (accessibilityPanel.classList.contains('active')) {
+                closeAccessibilityPanel();
+            } else {
+                openAccessibilityPanel();
+            }
+        });
+
+        closePanelButton.addEventListener('click', closeAccessibilityPanel);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && accessibilityPanel.classList.contains('active')) {
+                closeAccessibilityPanel();
+            }
+        });
+
+        document.getElementById('increase-text').addEventListener('click', () => {
+            currentMultiplier += 0.1;
+            document.body.style.fontSize = `calc(${initialFontSize} * ${currentMultiplier})`;
+        });
+
+        document.getElementById('decrease-text').addEventListener('click', () => {
+            if (currentMultiplier > 0.7) {
+                currentMultiplier -= 0.1;
+                document.body.style.fontSize = `calc(${initialFontSize} * ${currentMultiplier})`;
+            }
+        });
+
+        document.getElementById('reset-text').addEventListener('click', () => {
+            currentMultiplier = 1;
+            document.body.style.fontSize = initialFontSize;
+        });
+
+        document.getElementById('toggle-contrast').addEventListener('click', () => {
+            document.body.classList.toggle('high-contrast-mode');
+        });
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('nav');
+        menuToggle.addEventListener('click', () => {
+            const isExpanded = nav.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', isExpanded);
+        });
+    </script>
+</body>
+</html>
